@@ -94,9 +94,30 @@ class ServiceNowAdapter extends EventEmitter {
    *   that handles the response.
    */
   healthcheck(callback) {
-    // We will build this method in a later lab. For now, it will emulate
-    // a healthy integration by emmitting ONLINE.
-    this.emitOnline();
+   this.getRecord((result, error) => {
+     /**
+      * For this lab, complete the if else conditional
+      * statements that check if an error exists
+      * or the instance was hibernating. You must write
+      * the blocks for each branch.
+      */
+     if (error) {
+        this.emitOffline();
+        // log.info('Service-now adapter is offline {this.id}');
+        // log.info('Service-now adapter is offline', this.id);
+        // log.info(`Service-now adapter is offline ${this.id}`);
+        // log.error(`Service-now: Instance is unavailable and OFFLINE! User ${this.props.auth.username} Adapter ID: ${this.id}, Error Details: ${JSON.stringify(error)}`);
+          // if (callback) {
+            // callback(errorMessage);
+          // }
+     } else {
+        this.emitOnline();
+        // log.info(`Service-now adapter is available.  ID:  ${JSON.stringify(responseData)}`);
+        // if (callback) {
+            // callback(responseData);
+        // }
+     }
+   });
   }
 
   /**
