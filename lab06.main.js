@@ -152,31 +152,7 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-     this.connector.get((data, error) => {
-       if (error) {
-           callback([], error);
-       }
-       if (data) {
-           if (data.body) {
-               let result = JSON.parse(data.body);
-               let tickets = [];
-               result.result.forEach((change) => {
-                   let newChange = {
-                       change_ticket_number: change.number,
-                       change_ticket_key: change.sys_id,
-                       active: change.active,
-                       priority: change.priority,
-                       description: change.description,
-                       work_start: change.work_start,
-                       work_end: change.work_end
-
-                   };
-                   tickets.push(newChange);
-               })
-               callback(tickets);
-           }
-       }
-     })
+     ServiceNowConnector.get(callback)
   }
 
   /**
@@ -195,29 +171,7 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-     this.connector.post({}, (data, error) => {
-         log.info(data);
-         log.info(error);
-         if (error) {
-           callback(data, error);
-         }
-         if (data) {
-             if (data.body) {
-                 const result = JSON.parse(data.body);
-                 const ticket = result.result;
-                 const newTicket = { change_ticket_number: ticket.number,
-                    change_ticket_key: ticket.sys_id,
-                    active: ticket.active,
-                    priority: ticket.priority,
-                    description: ticket.description,
-                    work_start: ticket.work_start,
-                    work_end: ticket.work_end
-                 };
-                 log.info(newTicket);
-                 callback(newTicket, error);
-             }
-         }
-     })
+     ServiceNowConnector.post(callback);
   }
 }
 
